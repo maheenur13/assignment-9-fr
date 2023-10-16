@@ -72,7 +72,7 @@ const Services: FC<PropsType> = ({ query = {}, title }) => {
   }
 
   return (
-    <div className="p-4">
+    <div className=" mt-12 mb-8">
       <h2 className="text-center mb-2 text-slate-600 font-semibold">{title}</h2>
       {content}
     </div>

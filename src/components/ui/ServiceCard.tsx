@@ -48,7 +48,14 @@ const ServiceCard: FC<PropsType> = ({ service }) => {
               more content
             </div>
             <div className="mt-2">
-              <Tag>BIKE</Tag>
+              {service.ServiceVehicle.map((item) => (
+                <Tag
+                  key={item.id}
+                  color={item.vehicle.type === "BIKE" ? "blue" : "cyan"}
+                >
+                  {item.vehicle.type}
+                </Tag>
+              ))}
             </div>
           </div>
         }

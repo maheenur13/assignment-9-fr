@@ -64,7 +64,7 @@ const Categories: FC = () => {
 
   return (
     <div>
-      <h2 className="text-center mt-8 text-slate-600 font-semibold">
+      <h2 className="text-center mt-10 text-slate-600 font-semibold">
         Service Categories
       </h2>
       <Spin spinning={isLoading}>
