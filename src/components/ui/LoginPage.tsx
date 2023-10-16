@@ -7,7 +7,11 @@ import { Button, Form, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import React, { FC } from "react";
 
-const LoginPage: FC = () => {
+type PropsType = {
+  type: "admin" | "customer";
+};
+
+const LoginPage: FC<PropsType> = ({ type }) => {
   const [form] = Form.useForm();
   const router = useRouter();
   const [userLogin, { isLoading }] = useUserLoginMutation();
@@ -20,8 +24,11 @@ const LoginPage: FC = () => {
         message.success("user logged in successfully!");
 
         storeUserInfo({ accessToken: result?.accessToken });
-
-        router.push("/");
+        if (type === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       }
     } catch (error: any) {
       message.error(error.message);

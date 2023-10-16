@@ -2,7 +2,7 @@
 
 import { Avatar, Button, Dropdown, MenuProps, Space } from "antd";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   UserOutlined,
   SecurityScanOutlined,
@@ -10,8 +10,11 @@ import {
 } from "@ant-design/icons";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
 
 const NavigationBar: FC = () => {
+  const router = useRouter();
+  const [userRole, setUserRole] = useState<string | null>(null);
   const { role } = getUserInfo() as any;
   const items: MenuProps["items"] = [
     {
@@ -34,9 +37,17 @@ const NavigationBar: FC = () => {
     },
   ];
 
+  useEffect(() => {
+    if (role) {
+      setUserRole(role);
+    }
+  }, [role]);
+
   const handleLogout = (e: MenuInfo) => {
     // console.log(e);
     removeUserInfo("accessToken");
+    setUserRole(null);
+    router.push("/");
   };
 
   return (
@@ -59,7 +70,7 @@ const NavigationBar: FC = () => {
           About
         </Link>
         <div>
-          {role ? (
+          {userRole ? (
             <Dropdown menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>

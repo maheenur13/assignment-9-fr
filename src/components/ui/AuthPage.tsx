@@ -16,7 +16,7 @@ const AuthPage: FC<PropsType> = ({ authType }) => {
     {
       key: "login",
       label: <div>Login</div>,
-      children: <LoginPage />,
+      children: <LoginPage type="customer" />,
     },
     {
       key: "register",

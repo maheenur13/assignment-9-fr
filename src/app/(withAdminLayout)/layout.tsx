@@ -2,26 +2,30 @@
 
 import ContentWrapper from "@/components/ui/Contents";
 import SideBar from "@/components/ui/SideBar";
-import { isLoggedIn } from "@/services/auth.service";
+import { getUserInfo, isLoggedIn } from "@/services/auth.service";
 import { Layout, Row, Space, Spin } from "antd";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 
 type PropsType = {
   children: ReactNode;
 };
 
-const AdminLayout: FC<PropsType> = ({ children }) => {
+const AdminLayout: FC<PropsType> = ({ children, ...props }) => {
+  const { role } = getUserInfo() as any;
+  const pathname = usePathname();
   const userLoggedIn = isLoggedIn() || true;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   useEffect(() => {
     if (!userLoggedIn) {
       router.push("/login");
     }
+    if (role === "CUSTOMER") {
+      router.back();
+    }
     setIsLoading(true);
-  }, [router, isLoading, userLoggedIn]);
+  }, [router, isLoading, userLoggedIn, role]);
 
   if (!isLoading) {
     return (
@@ -38,6 +42,12 @@ const AdminLayout: FC<PropsType> = ({ children }) => {
       </Row>
     );
   }
+
+  if (pathname.includes("login")) {
+    return <div>{children}</div>;
+  }
+
+  // if(router.)
 
   return (
     <Layout hasSider>
