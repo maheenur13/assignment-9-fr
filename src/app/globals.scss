@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$primary-color: #198dfa !default;
+$white: #ffffff !default;
+$light-white: rgb(237, 237, 237) !default;
+$dark: #000000 !default;
+
+.text-primary {
+  color: $primary-color;
+}
+.bg-primary {
+  background-color: $primary-color;
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.logo {
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.link-item {
+  color: #ffffff;
+  font-size: 0.825;
+  font-weight: 300;
+}
+
+body {
+  background-color: $light-white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: $dark;
+}
+
+.carousel-container {
+  position: relative;
+  z-index: 1;
+  height: 480px;
+
+  .item-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    h2 {
+      word-spacing: 6px;
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: #ecf6ff;
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/car.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    z-index: -2;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #031a4399;
+
+    z-index: -1;
+  }
+}
