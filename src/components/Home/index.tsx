@@ -1,6 +1,5 @@
 "use client";
 import { FC } from "react";
-import CartPage from "../Cart";
 import TopBanner from "../ui/TopBanner";
 import Categories from "../ui/Categories";
 import Services from "../ui/Services";
@@ -18,7 +17,6 @@ const HomePage: FC = () => {
         <Promotional title="Banner for ads" />
         <Services title="Services For Your Bike" query={{ type: "BIKE" }} />
       </div>
-      <CartPage />
     </div>
   );
 };
