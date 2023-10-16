@@ -13,9 +13,9 @@ const HomePage: FC = () => {
       <div className="container mx-auto px-2">
         <Categories />
         <Services title="All Services" />
-        <Promotional title="upcoming features" />
+        <Promotional title="Banner for ads" />
         <Services title="Services For Your car" query={{ type: "CAR" }} />
-        <Promotional title="upcoming features" />
+        <Promotional title="Banner for ads" />
         <Services title="Services For Your Bike" query={{ type: "BIKE" }} />
       </div>
       <CartPage />
