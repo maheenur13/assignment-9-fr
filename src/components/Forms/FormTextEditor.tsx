@@ -1,5 +1,4 @@
-import { Input } from "antd";
-import type { TextAreaProps } from "antd/es/input";
+"use client";
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import TextEditor from "../ui/TextEditor";

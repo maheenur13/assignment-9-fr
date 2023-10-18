@@ -6,7 +6,6 @@ import FormMultiSelectField from "@/components/Forms/FormMultiSelectField";
 import FormSelectDropdown from "@/components/Forms/FormSelect";
 import { SelectOptions } from "@/components/Forms/FormSelectField";
 import FormTextEditor from "@/components/Forms/FormTextEditor";
-import TextEditor from "@/components/ui/TextEditor";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { useAddServiceMutation } from "@/redux/api/service.api";
 import { useGetAllCategoryQuery } from "@/redux/api/servicecategory.api";
