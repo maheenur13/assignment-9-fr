@@ -2,11 +2,14 @@
 
 import { useGetAllCategoryQuery } from "@/redux/api/servicecategory.api";
 import { Spin } from "antd";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const Categories: FC = () => {
+  const router = useRouter();
+
   const query: any = {};
   const { data, isLoading, isSuccess } = useGetAllCategoryQuery(
     { ...query },
@@ -45,10 +48,10 @@ const Categories: FC = () => {
           data?.categories?.map((item) => (
             <SwiperSlide
               key={item.id}
-              onClick={(e) => console.log(e)}
+              onClick={() => router.push(`/category/${item.id}`)}
               className="p-3 cursor-pointer h-32 bg-blue-100 rounded shadow-md border-2 flex justify-center items-center"
             >
-              <h3 className="text-blue-500 font-light text-sm">
+              <h3 className="text-blue-500 font-light text-sm text-center">
                 {item.categoryName}
               </h3>
             </SwiperSlide>
@@ -68,7 +71,7 @@ const Categories: FC = () => {
         Service Categories
       </h2>
       <Spin spinning={isLoading}>
-        <div className="py-2">{content}</div>
+        <div className="py-2 ">{content}</div>
       </Spin>
     </div>
   );

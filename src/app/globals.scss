@@ -52,6 +52,12 @@ p {
   color: $dark;
 }
 
+.quil-parent {
+  .ql-editor {
+    min-height: 150px;
+  }
+}
+
 .carousel-container {
   position: relative;
   z-index: 1;
