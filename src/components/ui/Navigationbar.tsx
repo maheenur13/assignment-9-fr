@@ -4,6 +4,7 @@ import { Avatar, Button, Dropdown, MenuProps, Space } from "antd";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import {
+  SolutionOutlined,
   UserOutlined,
   SecurityScanOutlined,
   LogoutOutlined,
@@ -15,8 +16,15 @@ import { useRouter } from "next/navigation";
 const NavigationBar: FC = () => {
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
-  const { role } = getUserInfo() as any;
+
+  const { role, id } = getUserInfo() as any;
+
   const items: MenuProps["items"] = [
+    {
+      key: "0",
+      label: <>{role && id}</>,
+      icon: <SolutionOutlined />,
+    },
     {
       key: "1",
       label: <Link href="/profile">Profile</Link>,

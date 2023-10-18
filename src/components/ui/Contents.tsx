@@ -1,36 +1,28 @@
 "use client";
-
-import { Layout, Space } from "antd";
-import React, { FC, ReactNode } from "react";
+import { Layout } from "antd";
 import Header from "./Header";
-
-type PropsType = {
-  children: ReactNode;
-};
 
 const { Content } = Layout;
 
-const ContentWrapper: FC<PropsType> = ({ children }) => {
-  const base = "admin";
-
+const Contents = ({ children }: { children: React.ReactNode }) => {
   return (
     <Content
       style={{
         minHeight: "100vh",
-        color: "darkgray",
+        color: "black",
       }}
     >
-      <Header/>
-     
-     
-    <div style={{
-      padding:12
-    }}>
-    {children}
-    </div>
-    
+      <Header />
+
+      <div
+        style={{
+          padding: "15px",
+        }}
+      >
+        {children}
+      </div>
     </Content>
   );
 };
 
-export default ContentWrapper;
+export default Contents;

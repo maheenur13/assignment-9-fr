@@ -59,7 +59,7 @@ const Services: FC<PropsType> = ({ query = {}, title }) => {
           {data &&
             data?.services?.map((service) => (
               <SwiperSlide key={service.id}>
-                <ServiceCard service={service} />
+                <ServiceCard service={service} type={query?.vehicleType} />
               </SwiperSlide>
             ))}
         </Swiper>

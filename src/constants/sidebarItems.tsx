@@ -31,41 +31,58 @@ export const sidebarItems = (role: string) => {
 
   const commonAdminSidebarItems: MenuProps["items"] = [
     {
-      label: <Link href={`/${role}/manage-service`}>Manage Service</Link>,
-      icon: <TableOutlined />,
-      key: `/${role}/manage-service`,
-    },
-    {
-      label: (
-        <Link href={`/${role}/service-category`}>Manage Service Category</Link>
-      ),
+      label: <>Service Category</>,
       icon: <TableOutlined />,
       key: `/${role}/manage-category`,
+
+      children: [
+        {
+          label: (
+            <Link href={`/${role}/manage-category`}>
+              Manage Service Category
+            </Link>
+          ),
+          key: `/${role}/category`,
+        },
+      ],
+    },
+    {
+      label: <>Vehicles</>,
+      icon: <TableOutlined />,
+      key: `/${role}/manage-vehicle`,
+
+      children: [
+        {
+          label: (
+            <Link href={`/${role}/manage-vehicle-type`}>
+              Manage Vehicle Types
+            </Link>
+          ),
+          key: `/${role}/manage-vehicle-type`,
+        },
+        {
+          label: <Link href={`/${role}/manage-vehicle`}>Manage Vehicle</Link>,
+          key: `/${role}/manage-vehicle`,
+        },
+      ],
+    },
+    {
+      label: <>Service</>,
+      icon: <TableOutlined />,
+      key: `/${role}/manage-service`,
+      children: [
+        {
+          label: <Link href={`/${role}/manage-service`}>Manage Service</Link>,
+          key: `/${role}/manage-service`,
+        },
+      ],
     },
   ];
 
   const adminSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
     ...commonAdminSidebarItems,
-    {
-      label: "Manage academic",
-      key: "manage-academic",
-      icon: <TableOutlined />,
-      children: [
-        {
-          label: <Link href={`/${role}/academic/faculty`}>Faculties</Link>,
-          key: `/${role}/academic/faculty`,
-        },
-        {
-          label: <Link href={`/${role}/academic/department`}>Departments</Link>,
-          key: `/${role}/academic/department`,
-        },
-        {
-          label: <Link href={`/${role}/academic/semester`}>Semesters</Link>,
-          key: `/${role}/academic/semester`,
-        },
-      ],
-    },
+
     {
       label: "Management",
       key: "management",
@@ -137,48 +154,8 @@ export const sidebarItems = (role: string) => {
     },
   ];
 
-  const facultySidebarItems: MenuProps["items"] = [
-    ...defaultSidebarItems,
-    {
-      label: <Link href={`/${role}/courses`}>Courses</Link>,
-      icon: <TableOutlined />,
-      key: `/${role}/courses`,
-    },
-  ];
-
-  const studentSidebarItems: MenuProps["items"] = [
-    ...defaultSidebarItems,
-    {
-      label: <Link href={`/${role}/courses`}>Courses</Link>,
-      icon: <TableOutlined />,
-      key: `/${role}/courses`,
-    },
-    {
-      label: <Link href={`/${role}/courses/schedule`}>Course schedules</Link>,
-      icon: <ScheduleOutlined />,
-      key: `/${role}/courses/schedule`,
-    },
-    {
-      label: <Link href={`/${role}/registration`}>Registration</Link>,
-      icon: <ThunderboltOutlined />,
-      key: `/${role}/registration`,
-    },
-    {
-      label: <Link href={`/${role}/payment`}>Payment</Link>,
-      icon: <CreditCardOutlined />,
-      key: `/${role}/payment`,
-    },
-    {
-      label: <Link href={`/${role}/academic-report`}>Academic report</Link>,
-      icon: <FileTextOutlined />,
-      key: `/${role}/academic-report`,
-    },
-  ];
-
   if (role === USER_ROLE.SUPER_ADMIN) return superAdminSidebarItems;
   else if (role === USER_ROLE.ADMIN) return adminSidebarItems;
-  else if (role === USER_ROLE.FACULTY) return facultySidebarItems;
-  else if (role === USER_ROLE.STUDENT) return studentSidebarItems;
   else {
     return defaultSidebarItems;
   }

@@ -9,18 +9,19 @@ import {
 
 import ActionBar from "@/components/ui/ActionBar";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import { Button, Input, Tag, message } from "antd";
+import { Button, Input, message } from "antd";
 import Link from "next/link";
 import React, { FC, useState } from "react";
 import { useDebounced } from "@/redux/hooks";
 import dayjs from "dayjs";
 import UMTable from "@/components/ui/UMTable";
-import {
-  useDeleteServiceMutation,
-  useGetAllServiceQuery,
-} from "@/redux/api/service.api";
 
-const ManageService: FC = () => {
+import {
+  useDeleteCategoryMutation,
+  useGetAllCategoryQuery,
+} from "@/redux/api/servicecategory.api";
+
+const ManageCategory: FC = () => {
   const query: Record<string, any> = {};
 
   const [page, setPage] = useState<number>(1);
@@ -28,8 +29,7 @@ const ManageService: FC = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const [deleteService] = useDeleteServiceMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   query["limit"] = size;
   query["page"] = page;
@@ -45,17 +45,17 @@ const ManageService: FC = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllServiceQuery({ ...query });
+  const { data, isLoading } = useGetAllCategoryQuery({ ...query });
 
-  const departments = data?.services;
+  const departments = data?.categories;
   const meta = data?.meta;
 
   const deleteHandler = async (id: string) => {
     message.loading("Deleting.....");
     try {
       //   console.log(data);
-      await deleteService(id);
-      message.success("Service Deleted successfully");
+      await deleteCategory(id);
+      message.success("Category Deleted successfully");
     } catch (err: any) {
       //   console.error(err.message);
       message.error(err.message);
@@ -64,40 +64,8 @@ const ManageService: FC = () => {
 
   const columns = [
     {
-      title: "Title",
-      dataIndex: "title",
-    },
-    {
-      title: "Details",
-      dataIndex: "details",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-    },
-    {
-      title: "Price (TK)",
-      dataIndex: "price",
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      render: (data: any) => {
-        return <Tag key={data.id}>{data.categoryName}</Tag>;
-      },
-    },
-    {
-      title: "Vehicles",
-      dataIndex: "serviceVehicles",
-      render: (data: any[]) => {
-        return data?.map((item, index) => {
-          return <Tag key={index}>{item.vehicle.model}</Tag>;
-        });
-      },
+      title: "Category Name",
+      dataIndex: "categoryName",
     },
     {
       title: "CreatedAt",
@@ -112,7 +80,7 @@ const ManageService: FC = () => {
       render: function (data: any) {
         return (
           <>
-            <Link href={`/admin/manage-service/edit/${data?.id}`}>
+            <Link href={`/admin/manage-category/edit/${data?.id}`}>
               <Button
                 style={{
                   margin: "0px 5px",
@@ -165,7 +133,7 @@ const ManageService: FC = () => {
           ]}
         />
 
-        <ActionBar title="Service List">
+        <ActionBar title="Category List">
           <Input
             type="text"
             size="large"
@@ -178,7 +146,7 @@ const ManageService: FC = () => {
             }}
           />
           <div>
-            <Link href="/admin/manage-service/create">
+            <Link href="/admin/manage-category/create">
               <Button type="primary">Create</Button>
             </Link>
             {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -209,4 +177,4 @@ const ManageService: FC = () => {
   );
 };
 
-export default ManageService;
+export default ManageCategory;

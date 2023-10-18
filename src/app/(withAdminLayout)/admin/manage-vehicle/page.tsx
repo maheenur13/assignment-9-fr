@@ -16,11 +16,11 @@ import { useDebounced } from "@/redux/hooks";
 import dayjs from "dayjs";
 import UMTable from "@/components/ui/UMTable";
 import {
-  useDeleteServiceMutation,
-  useGetAllServiceQuery,
-} from "@/redux/api/service.api";
+  useDeleteVehicleMutation,
+  useGetAllVehicleQuery,
+} from "@/redux/api/vehicle-api";
 
-const ManageService: FC = () => {
+const ManageVehicle: FC = () => {
   const query: Record<string, any> = {};
 
   const [page, setPage] = useState<number>(1);
@@ -28,8 +28,7 @@ const ManageService: FC = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const [deleteService] = useDeleteServiceMutation();
+  const [deleteVehicle] = useDeleteVehicleMutation();
 
   query["limit"] = size;
   query["page"] = page;
@@ -45,17 +44,17 @@ const ManageService: FC = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllServiceQuery({ ...query });
+  const { data, isLoading } = useGetAllVehicleQuery({ ...query });
 
-  const departments = data?.services;
+  const vehicles = data?.vehicles;
   const meta = data?.meta;
 
   const deleteHandler = async (id: string) => {
     message.loading("Deleting.....");
     try {
       //   console.log(data);
-      await deleteService(id);
-      message.success("Service Deleted successfully");
+      await deleteVehicle(id);
+      message.success("vehicle Deleted successfully");
     } catch (err: any) {
       //   console.error(err.message);
       message.error(err.message);
@@ -64,39 +63,30 @@ const ManageService: FC = () => {
 
   const columns = [
     {
-      title: "Title",
-      dataIndex: "title",
+      title: "Model",
+      dataIndex: "model",
     },
     {
-      title: "Details",
-      dataIndex: "details",
+      title: "Brand",
+      dataIndex: "brand",
     },
     {
-      title: "Description",
-      dataIndex: "description",
+      title: "CC",
+      dataIndex: "cc",
     },
     {
-      title: "Price (TK)",
-      dataIndex: "price",
+      title: "Weight",
+      dataIndex: "weight",
     },
     {
-      title: "Rating",
-      dataIndex: "rating",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      render: (data: any) => {
-        return <Tag key={data.id}>{data.categoryName}</Tag>;
-      },
-    },
-    {
-      title: "Vehicles",
-      dataIndex: "serviceVehicles",
-      render: (data: any[]) => {
-        return data?.map((item, index) => {
-          return <Tag key={index}>{item.vehicle.model}</Tag>;
-        });
+      title: "Type",
+      dataIndex: "vehicleType",
+      render: function (data: any) {
+        return (
+          <>
+            <Tag>{data}</Tag>
+          </>
+        );
       },
     },
     {
@@ -112,7 +102,7 @@ const ManageService: FC = () => {
       render: function (data: any) {
         return (
           <>
-            <Link href={`/admin/manage-service/edit/${data?.id}`}>
+            <Link href={`/admin/manage-vehicle/edit/${data?.id}`}>
               <Button
                 style={{
                   margin: "0px 5px",
@@ -137,7 +127,6 @@ const ManageService: FC = () => {
   ];
 
   const onPaginationChange = (page: number, pageSize: number) => {
-    console.log("Page:", page, "PageSize:", pageSize);
     setPage(page);
     setSize(pageSize);
   };
@@ -165,8 +154,9 @@ const ManageService: FC = () => {
           ]}
         />
 
-        <ActionBar title="Service List">
+        <ActionBar title="Vehicle List">
           <Input
+            value={searchTerm}
             type="text"
             size="large"
             placeholder="Search..."
@@ -178,7 +168,7 @@ const ManageService: FC = () => {
             }}
           />
           <div>
-            <Link href="/admin/manage-service/create">
+            <Link href="/admin/manage-vehicle/create">
               <Button type="primary">Create</Button>
             </Link>
             {(!!sortBy || !!sortOrder || !!searchTerm) && (
@@ -196,7 +186,7 @@ const ManageService: FC = () => {
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={departments}
+          dataSource={vehicles}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}
@@ -209,4 +199,4 @@ const ManageService: FC = () => {
   );
 };
 
-export default ManageService;
+export default ManageVehicle;

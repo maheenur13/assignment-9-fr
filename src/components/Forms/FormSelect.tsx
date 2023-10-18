@@ -26,14 +26,14 @@ const FormSelectDropdown: FC<PropsType> = ({
           marginBottom: 4,
         }}
       >
-        {label || null}
+        <div className="mb-2"> {label || null}</div>
       </div>
       <Controller
         control={control}
         name={name}
         render={({ field: { onChange, value } }) => (
           <Select
-            size={size}
+            size={size || "large"}
             placeholder={placeholder}
             value={value}
             options={options}

@@ -1,35 +1,30 @@
 "use client";
 
-import React, { FC, ReactNode, ReactElement, useEffect } from "react";
-import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
+import { ReactElement, ReactNode, useEffect } from "react";
+import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 
 type FormConfig = {
   defaultValues?: Record<string, any>;
   resolver?: any;
 };
 
-type PropsType = {
-  children?: ReactNode | ReactElement;
+type FormProps = {
+  children?: ReactElement | ReactNode;
   submitHandler: SubmitHandler<any>;
-  autoComplete?: string | undefined;
-  autoCapitalize?: string | undefined;
-  autoCorrect?: string | undefined;
-  autoSave?: string | undefined;
 } & FormConfig;
 
-const Form: FC<PropsType> = ({
+const Form = ({
   children,
   submitHandler,
   defaultValues,
   resolver,
-  ...rest
-}) => {
+}: FormProps) => {
   const formConfig: FormConfig = {};
 
   if (!!defaultValues) formConfig["defaultValues"] = defaultValues;
   if (!!resolver) formConfig["resolver"] = resolver;
+  const methods = useForm<FormProps>(formConfig);
 
-  const methods = useForm<PropsType>(formConfig);
   const { handleSubmit, reset } = methods;
 
   const onSubmit = (data: any) => {
@@ -37,15 +32,11 @@ const Form: FC<PropsType> = ({
     reset();
   };
 
-  useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset, methods]);
+  useEffect(() => reset(defaultValues), [defaultValues, reset, methods]);
 
   return (
     <FormProvider {...methods}>
-      <form {...rest} onSubmit={handleSubmit(onSubmit)}>
-        {children}
-      </form>
+      <form onSubmit={handleSubmit(onSubmit)}>{children}</form>
     </FormProvider>
   );
 };

@@ -2,6 +2,7 @@
 
 import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 import { Input } from "antd";
+import { spawn } from "child_process";
 import { useFormContext, Controller } from "react-hook-form";
 interface IInput {
   name: string;
@@ -44,7 +45,7 @@ const FormInput = ({
           *
         </span>
       ) : null}
-      {label ? label : null}
+      <div className="mb-2"> {label ? label : null}</div>
       <Controller
         control={control}
         name={name}

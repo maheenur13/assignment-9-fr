@@ -1,20 +1,20 @@
 import { IService } from "@/interfaces/common";
 import { Avatar, Card, Rate, Tag } from "antd";
 import React, { FC } from "react";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+
 import Image from "next/image";
 
 type PropsType = {
   service: IService;
+  type?: string;
 };
 
 const { Meta } = Card;
 
-const ServiceCard: FC<PropsType> = ({ service }) => {
+const ServiceCard: FC<PropsType> = ({ service, type }) => {
+  const uniqueVehicleTypes = new Set(
+    service.serviceVehicles.map((item) => item.vehicle.vehicleType)
+  );
   return (
     <Card
       style={{ width: "100%" }}
@@ -48,14 +48,15 @@ const ServiceCard: FC<PropsType> = ({ service }) => {
               more content
             </div>
             <div className="mt-2">
-              {service.ServiceVehicle.map((item) => (
-                <Tag
-                  key={item.id}
-                  color={item.vehicle.type === "BIKE" ? "blue" : "cyan"}
-                >
-                  {item.vehicle.type}
-                </Tag>
-              ))}
+              {type ? (
+                <Tag color={"blue"}>{type}</Tag>
+              ) : (
+                Array.from(uniqueVehicleTypes).map((item, index) => (
+                  <Tag key={index} color={"blue"}>
+                    {item}
+                  </Tag>
+                ))
+              )}
             </div>
           </div>
         }

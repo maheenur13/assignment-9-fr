@@ -38,13 +38,48 @@ export const categoryApi = baseApi.injectEndpoints({
       },
       transformResponse: (response: IServiceCategory) => {
         return {
-          product: response,
+          category: response,
         };
       },
+      providesTags: [tagTypes.serviceCategory],
+    }),
+    deleteCategory: build.mutation({
+      query: (id?: string) => {
+        return {
+          url: `${CATEGORY_URL}/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: [tagTypes.serviceCategory],
+    }),
+    createCategory: build.mutation({
+      query: (data) => {
+        return {
+          url: `${CATEGORY_URL}`,
+          method: "POST",
+          data: data,
+        };
+      },
+      invalidatesTags: [tagTypes.serviceCategory],
+    }),
+    updateCategory: build.mutation({
+      query: (data) => {
+        return {
+          url: `${CATEGORY_URL}/${data.id}`,
+          method: "PATCH",
+          data: data.body,
+        };
+      },
+      invalidatesTags: [tagTypes.serviceCategory],
     }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetAllCategoryQuery, useGetSingleCategoryQuery } =
-  categoryApi;
+export const {
+  useGetAllCategoryQuery,
+  useGetSingleCategoryQuery,
+  useCreateCategoryMutation,
+  useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
+} = categoryApi;

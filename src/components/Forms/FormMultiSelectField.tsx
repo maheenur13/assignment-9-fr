@@ -31,7 +31,7 @@ const FormMultiSelectField = ({
 
   return (
     <>
-      {label ? label : null}
+      <div className="mb-2">{label ? label : null}</div>
       <Controller
         control={control}
         name={name}

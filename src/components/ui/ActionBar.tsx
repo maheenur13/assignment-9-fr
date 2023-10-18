@@ -1,19 +1,18 @@
-import { FC, ReactElement, ReactNode } from "react";
-
-type PropsType = {
-  title: string;
-  children?: ReactNode | ReactElement;
+type ActionBarProps = {
+  title?: string;
+  children?: React.ReactElement | React.ReactNode;
 };
 
-const ActionBar: FC<PropsType> = ({ title, children }) => {
+const ActionBar = ({ title, children }: ActionBarProps) => {
   return (
     <div>
-      <h1 style={{ marginBottom: "10px" }}>{title}</h1>
+      <h3 className="mt-3">{title}</h3>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          margin: "10px 0px",
         }}
       >
         {children}

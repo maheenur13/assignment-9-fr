@@ -32,16 +32,19 @@ export type IServiceCategory = {
   updatedAt: Date;
 };
 
-export type IVehicleType = "BIKE" | "CAR";
-
 export type IVehicle = {
   id: string;
   images: string[];
   model: string;
-  type: IVehicleType;
+  vehicleType: string;
   weight: number | null;
   cc: number;
   brand: string;
+};
+
+export type IVehicleType = {
+  id: string;
+  type: string;
 };
 
 export type IServiceVehicle = {
@@ -59,6 +62,6 @@ export type IService = {
   price: number;
   rating: number;
   categoryId: string;
-  vehicleId: string;
-  ServiceVehicle: IServiceVehicle[];
+  vehicleIds: string[];
+  serviceVehicles: IServiceVehicle[];
 };

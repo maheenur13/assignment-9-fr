@@ -14,9 +14,15 @@ const HomePage: FC = () => {
         <Divider />
         <Services title="All Services" />
         <Promotional title="Banner for ads" />
-        <Services title="Services For Your car" query={{ type: "CAR" }} />
+        <Services
+          title="Services For Your car"
+          query={{ vehicleType: "CAR" }}
+        />
         <Promotional title="Banner for ads" />
-        <Services title="Services For Your Bike" query={{ type: "BIKE" }} />
+        <Services
+          title="Services For Your Bike"
+          query={{ vehicleType: "BIKE" }}
+        />
         <Services title="Recently Viewed" />
       </div>
     </div>
