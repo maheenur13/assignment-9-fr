@@ -1,5 +1,5 @@
 import { IService } from "@/interfaces/common";
-import { Avatar, Card, Rate, Tag } from "antd";
+import { Badge, Card, Rate, Tag } from "antd";
 import React, { FC } from "react";
 
 import Image from "next/image";
@@ -16,52 +16,66 @@ const ServiceCard: FC<PropsType> = ({ service, type }) => {
     service.serviceVehicles.map((item) => item.vehicle.vehicleType)
   );
   return (
-    <Card
-      style={{ width: "100%" }}
-      cover={
-        <Image
-          width={260}
-          height={180}
-          alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-        />
-      }
-      actions={[
-        <div key="price" className="font-semibold text-">
-          <Tag>{service.price} TK</Tag>
-        </div>,
-        <div key="rate" className="">
-          <Rate
-            style={{ fontSize: "16px" }}
-            disabled
-            defaultValue={service.rating}
-          />
-        </div>,
-      ]}
+    <Badge.Ribbon
+      text={Array.from(uniqueVehicleTypes).map((item, index) => item)}
     >
-      <Meta
-        title={service.title}
-        description={
-          <div>
-            <div>
-              {service.description} Test purpose description. Updating soon with
-              more content
-            </div>
-            <div className="mt-2">
-              {type ? (
-                <Tag color={"blue"}>{type}</Tag>
-              ) : (
-                Array.from(uniqueVehicleTypes).map((item, index) => (
-                  <Tag key={index} color={"blue"}>
-                    {item}
-                  </Tag>
-                ))
-              )}
-            </div>
+      <Card
+        style={{ width: "100%" }}
+        cover={
+          <div className="relative overflow-hidden  h-40 ">
+            <Image
+              // width={300}
+              // height={200}
+              fill={true}
+              style={{ objectFit: "cover" }}
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              alt="example"
+              src={
+                service?.imageUrl ||
+                "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              }
+            />
           </div>
         }
-      />
-    </Card>
+        actions={[
+          <div key="price" className="font-semibold text-">
+            <Tag>{service.price} TK</Tag>
+          </div>,
+          <div key="rate" className="">
+            <Rate
+              style={{ fontSize: "16px" }}
+              disabled
+              defaultValue={service.rating}
+            />
+          </div>,
+        ]}
+      >
+        <Meta
+          title={service.title}
+          description={
+            <div>
+              <div>
+                {service.description} Test purpose description. Updating soon
+                with more content
+              </div>
+              <div className="mt-2">
+                {service.serviceVehicles.map((item, index) => {
+                  if (index < 3) {
+                    return (
+                      <Tag key={index} color={"blue"}>
+                        {item.vehicle.model}
+                      </Tag>
+                    );
+                  } else {
+                    return "more";
+                  }
+                })}
+              </div>
+            </div>
+          }
+        />
+      </Card>
+    </Badge.Ribbon>
   );
 };
 

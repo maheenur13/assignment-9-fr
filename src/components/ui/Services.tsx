@@ -5,6 +5,7 @@ import React, { FC } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ServiceCard from "./ServiceCard";
+import { useRouter } from "next/navigation";
 
 type PropsType = {
   query?: { [key: string]: string };
@@ -12,6 +13,7 @@ type PropsType = {
 };
 
 const Services: FC<PropsType> = ({ query = {}, title }) => {
+  const router = useRouter();
   const newQuery = { ...query };
   const { data, isLoading } = useGetAllServiceQuery(
     { ...newQuery },
@@ -58,7 +60,11 @@ const Services: FC<PropsType> = ({ query = {}, title }) => {
         >
           {data &&
             data?.services?.map((service) => (
-              <SwiperSlide key={service.id}>
+              <SwiperSlide
+                key={service.id}
+                className="cursor-pointer"
+                onClick={() => router.push(`/service/${service.id}`)}
+              >
                 <ServiceCard service={service} type={query?.vehicleType} />
               </SwiperSlide>
             ))}

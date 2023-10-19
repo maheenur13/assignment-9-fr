@@ -7,6 +7,7 @@ import FormSelectDropdown from "@/components/Forms/FormSelect";
 import { SelectOptions } from "@/components/Forms/FormSelectField";
 import FormTextEditor from "@/components/Forms/FormTextEditor";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
+import UploadImage from "@/components/ui/UploadImage";
 import { useAddServiceMutation } from "@/redux/api/service.api";
 import { useGetAllCategoryQuery } from "@/redux/api/servicecategory.api";
 import { useGetAllVehicleQuery } from "@/redux/api/vehicle-api";
@@ -16,17 +17,27 @@ const CreateDepartmentPage = () => {
   const [addService] = useAddServiceMutation();
   const { data: categories } = useGetAllCategoryQuery({});
   const { data: vehicles } = useGetAllVehicleQuery({});
-  const onSubmit = async (data: any) => {
-    message.loading("Creating.....");
-    data.price = parseInt(data.price);
-    data["vehicleIds"] = data?.vehicleIds?.map((id: string) => {
+  const onSubmit = async (values: any) => {
+    values.price = parseInt(values.price);
+    values["vehicleIds"] = values?.vehicleIds?.map((id: string) => {
       return {
         vehicleId: id,
       };
     });
+    const obj = { ...values };
+
+    const file = obj["file"];
+    delete obj["file"];
+
+    const data = JSON.stringify(obj);
+    const formData = new FormData();
+    formData.append("file", file as Blob);
+    formData.append("data", data);
+
+    message.loading("Creating.....");
 
     try {
-      await addService(data);
+      await addService(formData);
       message.success("Service added successfully");
     } catch (err: any) {
       console.error(err.message);
@@ -83,7 +94,10 @@ const CreateDepartmentPage = () => {
               }
             />
           </Col>
-          <Col span={24}>
+          <Col span={3} style={{ margin: "10px 0" }}>
+            <UploadImage name="file" />
+          </Col>
+          <Col span={21}>
             <FormTextEditor name="specification" label={"Specifications"} />
           </Col>
         </Row>

@@ -62,6 +62,8 @@ export type IService = {
   price: number;
   rating: number;
   categoryId: string;
+  imageUrl?: string;
   vehicleIds: string[];
+  specification: string;
   serviceVehicles: IServiceVehicle[];
 };

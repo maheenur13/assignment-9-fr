@@ -60,7 +60,9 @@ const NavigationBar: FC = () => {
 
   return (
     <>
-      <div className="text-primary logo">Metro G</div>
+      <Link href="/">
+        <div className="text-primary logo">Metro G</div>
+      </Link>
       <div className="w-full flex  justify-end ">
         <Link className="px-6 link-item" href="/home" style={{}}>
           Home

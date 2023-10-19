@@ -8,7 +8,7 @@ type PropsType = {
 const GlobalViewLayout: FC<PropsType> = ({ children }) => {
   return (
     <AppLayout>
-      <div className="container mx-auto p-2">{children}</div>
+      <div className="container mx-auto ">{children}</div>
     </AppLayout>
   );
 };

@@ -41,6 +41,7 @@ export const serviceApi = baseApi.injectEndpoints({
         url: SERVICE_URL,
         method: "POST",
         data,
+        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.services],
     }),
