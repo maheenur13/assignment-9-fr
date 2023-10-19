@@ -63,7 +63,7 @@ const Services: FC<PropsType> = ({ query = {}, title }) => {
               <SwiperSlide
                 key={service.id}
                 className="cursor-pointer"
-                onClick={() => router.push(`/service/${service.id}`)}
+                // onClick={() => router.push(`/service/${service.id}`)}
               >
                 <ServiceCard service={service} type={query?.vehicleType} />
               </SwiperSlide>

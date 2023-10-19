@@ -3,6 +3,7 @@ import { Badge, Card, Rate, Tag } from "antd";
 import React, { FC } from "react";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type PropsType = {
   service: IService;
@@ -12,6 +13,7 @@ type PropsType = {
 const { Meta } = Card;
 
 const ServiceCard: FC<PropsType> = ({ service, type }) => {
+  const router = useRouter()
   const uniqueVehicleTypes = new Set(
     service.serviceVehicles.map((item) => item.vehicle.vehicleType)
   );
@@ -20,6 +22,8 @@ const ServiceCard: FC<PropsType> = ({ service, type }) => {
       text={Array.from(uniqueVehicleTypes).map((item, index) => item)}
     >
       <Card
+      className="cursor-pointer"
+      onClick={()=>router.push(`/service/${service.id}`)}
         style={{ width: "100%" }}
         cover={
           <div className="relative overflow-hidden  h-40 ">

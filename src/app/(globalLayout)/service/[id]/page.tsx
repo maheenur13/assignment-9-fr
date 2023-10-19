@@ -5,6 +5,7 @@ import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { useGetSingleServiceQuery } from "@/redux/api/service.api";
 import { Button, Spin, Tabs, TabsProps } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import React, { FC } from "react";
 
 type PropsType = {
@@ -41,8 +42,8 @@ const Service: FC<PropsType> = ({ params }) => {
 
   return (
     <Spin spinning={isLoading}>
-      <div className="min-h-screen my-3">
-        <div className="mb-2">
+      <div className="min-h-screen my-3 p-4">
+        <div className="mb-4">
           <UMBreadCrumb items={[{ label: `home`, link: `/` }]} />
         </div>
         <div className="h-96 shadow-md overflow-hidden rounded-md flex justify-center items-center relative">
@@ -58,7 +59,7 @@ const Service: FC<PropsType> = ({ params }) => {
           />
         </div>
         <div className="mt-4 text-right">
-          <Button type="primary">Book</Button>
+         <Link href={`/booking/${data?.service?.id}`} > <Button type="primary">Book</Button></Link>
         </div>
         <Tabs className="my-4" tabPosition={"left"} items={tabItems} />
       </div>

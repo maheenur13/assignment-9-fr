@@ -44,12 +44,6 @@ export const ServiceOverview: FC<PropsType> = ({ data }) => {
       ),
       span: 3,
     },
-    {
-      key: "6",
-      label: "Status",
-      children: <Badge status="processing" text="Running" />,
-      span: 3,
-    },
 
     {
       key: "8",

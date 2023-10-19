@@ -11,6 +11,7 @@ type FormConfig = {
 type FormProps = {
   children?: ReactElement | ReactNode;
   submitHandler: SubmitHandler<any>;
+  isFormResetable?:boolean;
 } & FormConfig;
 
 const Form = ({
@@ -18,6 +19,7 @@ const Form = ({
   submitHandler,
   defaultValues,
   resolver,
+  isFormResetable =true
 }: FormProps) => {
   const formConfig: FormConfig = {};
 
@@ -29,7 +31,10 @@ const Form = ({
 
   const onSubmit = (data: any) => {
     submitHandler(data);
-    reset();
+    if(isFormResetable) {
+      reset();
+    }
+   
   };
 
   useEffect(() => reset(defaultValues), [defaultValues, reset, methods]);

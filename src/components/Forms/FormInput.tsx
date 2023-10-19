@@ -14,6 +14,7 @@ interface IInput {
   validation?: object;
   label?: string;
   required?: boolean;
+  defaultValue?:string;
 }
 
 const FormInput = ({
@@ -26,6 +27,7 @@ const FormInput = ({
   validation,
   label,
   required,
+  defaultValue
 }: IInput) => {
   const {
     control,
@@ -64,6 +66,7 @@ const FormInput = ({
               size={size}
               placeholder={placeholder}
               {...field}
+              defaultValue={defaultValue}
               value={value ? value : field.value}
             />
           )

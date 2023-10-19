@@ -80,10 +80,6 @@ const ManageService: FC = () => {
       dataIndex: "price",
     },
     {
-      title: "Rating",
-      dataIndex: "rating",
-    },
-    {
       title: "Category",
       dataIndex: "category",
       render: (data: any) => {

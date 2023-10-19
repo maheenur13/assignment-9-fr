@@ -67,3 +67,31 @@ export type IService = {
   specification: string;
   serviceVehicles: IServiceVehicle[];
 };
+
+export type IUser = {
+  id: string;
+  name: string;
+  profileImage: string;
+  email: string;
+  contactNo: string;
+  gender: "Male" | "Female" | "Other";
+  bloodGroup: string;
+
+  userId: string;
+};
+
+export type IBookingPayload = {
+  bookingDate?: string;
+  serviceAvailDate: string;
+  serviceAvailTime: string;
+  paymentStatus?: "PAID" | "PENDING";
+  orderPlaceAt: "SERVICE_POINT" | "AT_HOME";
+  address: string;
+  phoneNumber: string;
+  total: number;
+  bookingStatus?: "PENDING" | "COMPLETE";
+  addiotionalInfo: string;
+  customerId: string;
+  serviceId: string;
+  vehicleId: string;
+};
