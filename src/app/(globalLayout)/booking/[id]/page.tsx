@@ -16,6 +16,7 @@ import {
   Row,
   Spin,
   Tag,
+  message,
 } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 import { FC, useState, useEffect } from "react";
@@ -23,6 +24,8 @@ import dayjs from "dayjs";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import { IBookingPayload } from "@/interfaces/common";
 import FinalBooking from "@/components/ui/BookingFinal";
+import { useAddBookingMutation } from "@/redux/api/booking-api";
+import { useRouter } from "next/navigation";
 
 type PropsType = {
   params: { id: string };
@@ -39,10 +42,13 @@ const serviceAvailPlace = [
   },
 ];
 const Booking: FC<PropsType> = ({ params }) => {
+  const router = useRouter();
   const [userId, setUserId] = useState<string>("");
   const userData: any = getUserInfo();
   const { data: userInfo } = useGetSingleUserQuery(userId);
   const { data: ServiceData, isLoading } = useGetSingleServiceQuery(params.id);
+
+  const [addBooking] = useAddBookingMutation();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -198,9 +204,21 @@ const Booking: FC<PropsType> = ({ params }) => {
     showModal();
   };
 
-  const onFinalSubmit = () => {
-    
-  }
+  const onFinalSubmit = async () => {
+    try {
+      const result: any = await addBooking(finalPayload);
+      console.log({ result });
+      if (result?.data?.id) {
+        message.success("Booking Successfully!");
+        hideModal();
+        router.push("/");
+      } else {
+        message.error("Something went wrong!");
+      }
+    } catch (error: any) {
+      message.error(error?.message);
+    }
+  };
 
   useEffect(() => {
     if (userData) {
@@ -248,7 +266,7 @@ const Booking: FC<PropsType> = ({ params }) => {
         okText="Submit"
         cancelText="Cancel"
       >
-       <FinalBooking bookingData={finalPayload as IBookingPayload} />
+        <FinalBooking bookingData={finalPayload as IBookingPayload} />
       </Modal>
     </Spin>
   );

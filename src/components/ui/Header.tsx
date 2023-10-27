@@ -18,7 +18,7 @@ const Header = () => {
 
   const handleLogout = () => {
     removeUserInfo("accessToken");
-    router.push("/login");
+    router.push("/admin/login");
   };
 
   const items: MenuProps["items"] = [

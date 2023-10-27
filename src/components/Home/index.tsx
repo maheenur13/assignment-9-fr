@@ -23,7 +23,7 @@ const HomePage: FC = () => {
           title="Services For Your Bike"
           query={{ vehicleType: "BIKE" }}
         />
-        <Services title="Recently Viewed" />
+        <Services title="Latest Services" />
       </div>
     </div>
   );
