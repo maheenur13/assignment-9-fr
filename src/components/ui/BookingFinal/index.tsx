@@ -7,7 +7,6 @@ type PropsType = {
 };
 
 const FinalBooking: FC<PropsType> = ({ bookingData }) => {
-
   const userItems: DescriptionsProps["items"] = [
     {
       key: "1",
@@ -22,35 +21,22 @@ const FinalBooking: FC<PropsType> = ({ bookingData }) => {
     {
       key: "3",
       label: "Service Avail Date",
-      children: (
-        <div>{bookingData.serviceAvailDate}</div>
-      ),
+      children: <div>{bookingData.serviceAvailDate}</div>,
     },
     {
       key: "4",
       label: "Service Avail Time",
-      children: (
-        <div>{bookingData.serviceAvailTime}</div>
-      ),
+      children: <div>{bookingData.serviceAvailTime}</div>,
     },
     {
       key: "5",
       label: "Totsl",
-      children: (
-        <div>{bookingData.total}</div>
-      ),
+      children: <div>{bookingData.total}</div>,
     },
- 
   ];
   return (
     <div className="p-5">
-      <Descriptions
-                column={1}
-                layout="horizontal"
-               
-                bordered
-                items={userItems}
-              />
+      <Descriptions column={1} layout="horizontal" bordered items={userItems} />
     </div>
   );
 };

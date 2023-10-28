@@ -1,19 +1,18 @@
 "use client";
-
-import Form from "@/components/Forms/Form";
-import FormDatePicker from "@/components/Forms/FormDatePicker";
-import FormInput from "@/components/Forms/FormInput";
-import FormSelectField from "@/components/Forms/FormSelectField";
 import { useGetSingleServiceQuery } from "@/redux/api/service.api";
 import { useGetSingleUserQuery } from "@/redux/api/user-api";
 import { getUserInfo } from "@/services/auth.service";
 import {
   Button,
   Col,
+  DatePicker,
   Descriptions,
   DescriptionsProps,
+  Form,
+  Input,
   Modal,
   Row,
+  Select,
   Spin,
   Tag,
   message,
@@ -43,6 +42,8 @@ const serviceAvailPlace = [
 ];
 const Booking: FC<PropsType> = ({ params }) => {
   const router = useRouter();
+  const [form] = Form.useForm();
+
   const [userId, setUserId] = useState<string>("");
   const userData: any = getUserInfo();
   const { data: userInfo } = useGetSingleUserQuery(userId);
@@ -121,7 +122,17 @@ const Booking: FC<PropsType> = ({ params }) => {
       key: "21",
       label: "Phone Number",
       children: (
-        <FormInput name="phoneNumber" defaultValue={userInfo?.contactNo} />
+        <Form.Item
+          name="phoneNumber"
+          rules={[
+            {
+              required: true,
+              message: "Phone number required!",
+            },
+          ]}
+        >
+          <Input defaultValue={userInfo?.contactNo} />
+        </Form.Item>
       ),
     },
     {
@@ -129,61 +140,116 @@ const Booking: FC<PropsType> = ({ params }) => {
       label: "Select Your Vehicle",
       children: (
         <div>
-          <FormSelectField
+          <Form.Item
             name="vehicleId"
-            options={
-              ServiceData?.service.serviceVehicles.map((vehicleItem) => {
-                return {
-                  label: vehicleItem.vehicle.model,
-                  value: vehicleItem.vehicle.id,
-                };
-              }) || []
-            }
-          />
+            rules={[
+              {
+                required: true,
+                message: "Vehicle ID required!",
+              },
+            ]}
+          >
+            <Select
+              options={
+                ServiceData?.service.serviceVehicles.map((vehicleItem) => {
+                  return {
+                    label: vehicleItem.vehicle.model,
+                    value: vehicleItem.vehicle.id,
+                  };
+                }) || []
+              }
+            />
+          </Form.Item>
         </div>
       ),
     },
     {
       key: "3",
       label: "Address",
-      children: <FormInput name="address" />,
+      children: (
+        <Form.Item
+          name="address"
+          rules={[
+            {
+              required: true,
+              message: "Address required!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      ),
     },
     {
       key: "4",
       label: "Service Avail Date",
       children: (
-        <FormDatePicker
-          disabledDate={disabledDate}
-          label=""
-          picker="date"
+        <Form.Item
           name="serviceAvailDate"
-        />
+          rules={[
+            {
+              required: true,
+              message: "Avail date required!",
+            },
+          ]}
+        >
+          <DatePicker
+            className="w-full"
+            disabledDate={disabledDate}
+            picker="date"
+          />
+        </Form.Item>
       ),
     },
     {
       key: "5",
       label: "Service Avail Time",
       children: (
-        <FormDatePicker
-          disabledTime={disabledDateTime}
-          label=""
-          picker="time"
+        <Form.Item
           name="serviceAvailTime"
-        />
+          rules={[
+            {
+              required: true,
+              message: "Avail Time required!",
+            },
+          ]}
+        >
+          <DatePicker
+            className="w-full"
+            disabledTime={disabledDateTime}
+            picker="time"
+            format="h:mm a"
+            minuteStep={30}
+          />
+        </Form.Item>
       ),
     },
     {
       key: "6",
       label: "Service Point",
       children: (
-        <FormSelectField name="orderPlaceAt" options={serviceAvailPlace} />
+        <Form.Item
+          name="orderPlaceAt"
+          rules={[
+            {
+              required: true,
+              message: "Order Place required!",
+            },
+          ]}
+        >
+          <Select className="w-full" options={serviceAvailPlace} />
+        </Form.Item>
       ),
     },
 
     {
       key: "8",
       label: "Additional Information",
-      children: <FormTextArea name="additionalInfo" label="" />,
+      children: (
+        <Form.Item name="additionalInfo">
+          <Input.TextArea />
+        </Form.Item>
+      ),
     },
   ];
 
@@ -192,9 +258,9 @@ const Booking: FC<PropsType> = ({ params }) => {
       phoneNumber: values.phoneNumber,
       address: values.address,
       customerId: userInfo?.id,
-      addiotionalInfo: values.additionalInfo,
-      serviceAvailDate: values.serviceAvailDate,
-      serviceAvailTime: values.serviceAvailTime,
+      additionalInfo: values.additionalInfo,
+      serviceAvailDate: values.serviceAvailDate.format("YYYY-MM-DD"),
+      serviceAvailTime: values.serviceAvailTime.format("h:mm a"),
       vehicleId: values.vehicleId,
       orderPlaceAt: values.orderPlaceAt,
       serviceId: ServiceData?.service.id as string,
@@ -228,7 +294,7 @@ const Booking: FC<PropsType> = ({ params }) => {
 
   return (
     <Spin spinning={isLoading}>
-      <Form submitHandler={onSubmit} isFormResetable={false}>
+      <Form onFinish={onSubmit} form={form}>
         <div className="min-h-screen p-4 mt-6 container mx-auto">
           <Row gutter={24}>
             <Col span={14}>
@@ -248,13 +314,17 @@ const Booking: FC<PropsType> = ({ params }) => {
                 bordered
                 items={userItems}
               />
+              <div className="mt-6 text-center ">
+                <Button
+                  htmlType="submit"
+                  type="primary"
+                  style={{ borderRadius: 4 }}
+                >
+                  Confirm Booking
+                </Button>
+              </div>
             </Col>
           </Row>
-        </div>
-        <div className="mb-4 text-right px-7">
-          <Button htmlType="submit" type="primary" style={{ borderRadius: 4 }}>
-            Confirm Booking
-          </Button>
         </div>
       </Form>
       <Modal

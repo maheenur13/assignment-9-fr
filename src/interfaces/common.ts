@@ -90,7 +90,7 @@ export type IBookingPayload = {
   phoneNumber: string;
   total: number;
   bookingStatus?: "PENDING" | "COMPLETE";
-  addiotionalInfo: string;
+  additionalInfo: string;
   customerId: string;
   serviceId: string;
   vehicleId: string;
