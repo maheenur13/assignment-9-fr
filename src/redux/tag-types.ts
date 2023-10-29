@@ -12,5 +12,6 @@ export const tagTypesList = [
   tagTypes.serviceCategory,
   tagTypes.vehicles,
   tagTypes.vehicleType,
-  tagTypes.bookingType
+  tagTypes.bookingType,
+  tagTypes.services,
 ];

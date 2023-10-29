@@ -1,7 +1,6 @@
 import { message } from "antd";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
-import { ILoginResponse } from "@/interfaces/common";
 
 const AUTH_URL = "/auth";
 
