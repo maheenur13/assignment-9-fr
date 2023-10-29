@@ -8,15 +8,19 @@ import { useRouter } from "next/navigation";
 
 type PropsType = {
   authType: "login" | "register";
+  callbackUrl?: string;
+  error?: string;
 };
 
-const AuthPage: FC<PropsType> = ({ authType }) => {
+const AuthPage: FC<PropsType> = ({ authType, callbackUrl, error }) => {
   const router = useRouter();
   const items: TabsProps["items"] = [
     {
       key: "login",
       label: <div>Login</div>,
-      children: <LoginPage type="customer" />,
+      children: (
+        <LoginPage type="customer" callbackUrl={callbackUrl} error={error} />
+      ),
     },
     {
       key: "register",

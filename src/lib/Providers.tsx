@@ -1,14 +1,16 @@
 "use client";
+
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import AntdRegistry from "./AntdRegistry";
+import { SessionProvider } from "next-auth/react";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
-      {/* <StyledComponentsRegistry> */}
-      <AntdRegistry>{children}</AntdRegistry>
-      {/* </StyledComponentsRegistry> */}
+      <AntdRegistry>
+        <SessionProvider>{children}</SessionProvider>
+      </AntdRegistry>
     </Provider>
   );
 };

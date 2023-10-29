@@ -1,40 +1,35 @@
 "use client";
 
-import { ILoginResponse } from "@/interfaces/common";
-import { useUserLoginMutation } from "@/redux/api/auth-api";
-import { storeUserInfo } from "@/services/auth.service";
 import { Button, Form, Input, message } from "antd";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { FC } from "react";
 
 type PropsType = {
   type: "admin" | "customer";
+  callbackUrl?: string;
+  error?: string;
 };
 
-const LoginPage: FC<PropsType> = ({ type }) => {
+const LoginPage: FC<PropsType> = ({ type, callbackUrl, error }) => {
   const [form] = Form.useForm();
   const router = useRouter();
-  const [userLogin, { isLoading }] = useUserLoginMutation();
 
   const handleLogin = async (values: any) => {
     try {
-      const result: ILoginResponse = await userLogin(values).unwrap();
+      const res = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
 
-      if (result.accessToken) {
+      if (res?.ok && callbackUrl) {
+        router.push(`${callbackUrl}/` ?? "http://localhost:3000");
         message.success("user logged in successfully!");
-
-        storeUserInfo({ accessToken: result?.accessToken });
-        if (type === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
       }
     } catch (error: any) {
       message.error(error.message);
     }
-
-    //  if(result)
   };
 
   return (
@@ -68,7 +63,6 @@ const LoginPage: FC<PropsType> = ({ type }) => {
             className="w-full"
             htmlType="submit"
             type="primary"
-            loading={isLoading}
           >
             Login
           </Button>

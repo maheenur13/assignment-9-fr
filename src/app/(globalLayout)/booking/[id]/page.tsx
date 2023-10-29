@@ -273,7 +273,7 @@ const Booking: FC<PropsType> = ({ params }) => {
   const onFinalSubmit = async () => {
     try {
       const result: any = await addBooking(finalPayload);
-      console.log({ result });
+
       if (result?.data?.id) {
         message.success("Booking Successfully!");
         hideModal();

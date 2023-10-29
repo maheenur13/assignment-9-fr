@@ -12,17 +12,16 @@ import {
 import { MenuInfo } from "rc-menu/lib/interface";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 const NavigationBar: FC = () => {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  const { role, id } = getUserInfo() as any;
+  const { data: session } = useSession();
 
   const items: MenuProps["items"] = [
     {
       key: "0",
-      label: <>{role && id}</>,
+      label: <>{session?.user.id && session.user.id}</>,
       icon: <SolutionOutlined />,
     },
     {
@@ -45,17 +44,11 @@ const NavigationBar: FC = () => {
     },
   ];
 
-  useEffect(() => {
-    if (role) {
-      setUserRole(role);
-    }
-  }, [role]);
-
   const handleLogout = (e: MenuInfo) => {
     // console.log(e);
+
     removeUserInfo("accessToken");
-    setUserRole(null);
-    router.push("/");
+    signOut();
   };
 
   return (
@@ -80,7 +73,7 @@ const NavigationBar: FC = () => {
           About
         </Link>
         <div>
-          {userRole ? (
+          {session?.user.role ? (
             <Dropdown menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>

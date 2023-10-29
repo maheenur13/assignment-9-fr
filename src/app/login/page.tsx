@@ -1,10 +1,14 @@
 import AuthPage from "@/components/ui/AuthPage";
 import React, { FC } from "react";
 
-const Login: FC = () => {
+type PropsType = {
+  searchParams?: Record<"callbackUrl" | "error", string>;
+};
+
+const Login: FC<PropsType> = ({ searchParams }) => {
   return (
     <div>
-      <AuthPage authType="login" />
+      <AuthPage authType="login" {...searchParams} />
     </div>
   );
 };
